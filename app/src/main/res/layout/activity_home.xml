@@ -5,9 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="user"
             type="com.devwujot.hashtag.core.data.User" />
+
         <variable
             name="viewModel"
             type="com.devwujot.hashtag.framework.viewModel.HomeActivityViewModel" />
@@ -20,11 +22,11 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:orientation="horizontal"
-            app:cardElevation="4dp"
+            app:cardElevation="@dimen/toolbar_elevation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -37,12 +39,12 @@
 
                 <ImageView
                     android:id="@+id/logo"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="centerCrop"
+                    android:layout_width="@dimen/logo_home_size"
+                    android:layout_height="@dimen/logo_home_size"
                     android:onClick="@{() -> viewModel.onLogoClicked()}"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/default_user"
-                    app:loadImage="@{user.imageUrl}"/>
+                    app:loadImage="@{user.imageUrl}" />
 
             </androidx.cardview.widget.CardView>
 
@@ -52,9 +54,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="@dimen/toolbar_title_left_margin"
                 android:paddingLeft="@dimen/grid_3x"
-                android:text="Home"
+                android:text="@string/title_home"
                 android:textColor="@color/black" />
 
             <androidx.cardview.widget.CardView
@@ -62,16 +64,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="60dp"
-                android:layout_marginLeft="60dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginStart="@dimen/searchbar_margin_start"
+                android:layout_marginLeft="@dimen/searchbar_margin_start"
+                android:layout_marginEnd="@dimen/searchbar_margin_end"
+                android:layout_marginRight="@dimen/searchbar_margin_end"
                 android:visibility="gone"
                 app:cardCornerRadius="@dimen/standard_corner_radius">
 
                 <EditText
                     android:id="@+id/search"
-                    android:layout_width="260dp"
+                    android:layout_width="@dimen/searchbar_width"
                     android:layout_height="@dimen/search_height"
                     android:background="@color/colorPrimary"
                     android:drawableEnd="@android:drawable/ic_menu_search"
@@ -93,35 +95,35 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/standard_height"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:tabIndicator="@null" >
+            app:tabIndicator="@null">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/selector_home"/>
+                android:icon="@drawable/selector_home" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/selector_search"/>
+                android:icon="@drawable/selector_search" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabMyActivity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/selector_myactivity"/>
+                android:icon="@drawable/selector_myactivity" />
 
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/zero_dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintBottom_toTopOf="@+id/tabs"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -137,11 +139,11 @@
             android:id="@+id/homeProgressLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:background="@color/transparent_grey"
+            android:elevation="@dimen/progress_layout_elevation"
             android:gravity="center"
-            android:visibility="gone"
-            android:elevation="5dp"
-            android:background="@color/transparent_grey">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ProgressBar
                 android:layout_width="wrap_content"

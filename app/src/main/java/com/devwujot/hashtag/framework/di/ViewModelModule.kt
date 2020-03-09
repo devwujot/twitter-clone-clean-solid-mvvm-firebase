@@ -12,4 +12,5 @@ val viewModelModule = module {
     viewModel { TweetViewModel(get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { HomeFragmentViewModel(get()) }
+    viewModel { MyActivityViewModel(get()) }
 }

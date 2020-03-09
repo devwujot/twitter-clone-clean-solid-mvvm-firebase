@@ -10,4 +10,18 @@
     <dimen name="standard_text_size">20sp</dimen>
     <dimen name="standard_corner_radius">25dp</dimen>
     <dimen name="search_height">40dp</dimen>
+
+    <dimen name="zero_dp">0dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
+    <dimen name="logo_home_size">50dp</dimen>
+    <dimen name="toolbar_title_left_margin">50dp</dimen>
+    <dimen name="searchbar_margin_start">60dp</dimen>
+    <dimen name="searchbar_margin_end">20dp</dimen>
+    <dimen name="searchbar_width">260dp</dimen>
+    <dimen name="progress_layout_elevation">5dp</dimen>
+    <dimen name="tweet_image_min_height">200dp</dimen>
+    <dimen name="tweet_image_max_height">200dp</dimen>
+    <dimen name="follow_hashtag_icon_size">50dp</dimen>
+    <dimen name="tweet_like_icon_size">30dp</dimen>
+    <dimen name="tweet_retweet_icon_size">30dp</dimen>
 </resources>

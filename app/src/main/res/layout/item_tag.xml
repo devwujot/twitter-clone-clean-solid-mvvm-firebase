@@ -53,12 +53,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/grid_2x"
             android:adjustViewBounds="true"
-            android:maxHeight="300dp"
+            android:maxHeight="@dimen/tweet_image_max_height"
             android:scaleType="centerInside"
-            app:loadImage="@{tweet.imageUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tag_text" />
+            app:layout_constraintTop_toBottomOf="@+id/tag_text"
+            app:loadImage="@{tweet.imageUrl}" />
 
         <TextView
             android:id="@+id/tag_date"
@@ -78,7 +78,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tag_date">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero_dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -86,17 +86,17 @@
 
                 <ImageView
                     android:id="@+id/tweet_like"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/tweet_like_icon_size"
+                    android:layout_height="@dimen/tweet_like_icon_size"
                     android:layout_gravity="center"
                     android:background="@null"
+                    android:onClick="@{listener::onLike}"
                     android:padding="@dimen/grid_1x"
                     android:scaleType="centerInside"
                     android:src="@drawable/like_inactive"
-                    android:onClick="@{listener::onLike}"
                     android:tag="@{tweet.tweetId}"
-                    app:userId="@{userId}"
-                    app:tweet="@{tweet}" />
+                    app:tweet="@{tweet}"
+                    app:userId="@{userId}" />
 
                 <TextView
                     android:id="@+id/tweet_like_count"
@@ -111,7 +111,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero_dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
@@ -119,16 +119,16 @@
 
                 <ImageView
                     android:id="@+id/tweet_retweet"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/tweet_retweet_icon_size"
+                    android:layout_height="@dimen/tweet_retweet_icon_size"
                     android:layout_gravity="center"
                     android:background="@null"
+                    android:onClick="@{listener::onReTweet}"
                     android:padding="@dimen/grid_1x"
                     android:scaleType="centerInside"
-                    android:onClick="@{listener::onReTweet}"
                     android:tag="@{tweet.tweetId}"
                     app:userId="@{userId}"
-                    app:userIds="@{tweet}"/>
+                    app:userIds="@{tweet}" />
 
                 <TextView
                     android:id="@+id/tweet_retweet_count"

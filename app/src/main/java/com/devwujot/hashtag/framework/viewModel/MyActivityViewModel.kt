@@ -7,7 +7,7 @@ import com.devwujot.hashtag.core.data.Tweet
 import com.devwujot.hashtag.core.data.User
 import com.devwujot.hashtag.framework.UseCases
 
-class HomeFragmentViewModel(val useCases: UseCases) : ViewModel() {
+class MyActivityViewModel(val useCases: UseCases) : ViewModel() {
 
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String>
@@ -34,19 +34,18 @@ class HomeFragmentViewModel(val useCases: UseCases) : ViewModel() {
         }
     }
 
-    fun getHomeTweets() {
-        useCases.getHomeTweets(_user, _tweets, _isLoading)
-        useCases.getUser(_user, _isLoading)
+    fun getMyActivityTweets() {
+        useCases.getMyActivityTweets(_tweets, _isLoading)
     }
 
     fun updateTweeLikes(tweet: Tweet) {
         useCases.updateTweetLikes(tweet, _isLoading)
-        getHomeTweets()
+        getMyActivityTweets()
     }
 
     fun updateReTweet(tweet: Tweet) {
         useCases.updateReTweet(tweet, _isLoading)
-        getHomeTweets()
+        getMyActivityTweets()
     }
 
     fun unfollowUser(followedUsers: ArrayList<String>) {

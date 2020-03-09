@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.devwujot.hashtag.core.data.AuthCridential
-import com.devwujot.hashtag.core.data.User
 import com.devwujot.hashtag.framework.UseCases
 import com.devwujot.hashtag.framework.utility.SingleLiveEvent
 

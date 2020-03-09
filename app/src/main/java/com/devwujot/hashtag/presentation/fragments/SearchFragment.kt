@@ -1,14 +1,15 @@
 package com.devwujot.hashtag.presentation.fragments
 
-
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.devwujot.hashtag.R
 import com.devwujot.hashtag.core.data.Tweet
 import com.devwujot.hashtag.core.data.User
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -20,11 +21,8 @@ import com.devwujot.hashtag.presentation.adapters.TweetListAdapter
 class SearchFragment : BaseFragment() {
 
     private var currentHashtag = ""
-    private var userId = ""
-    private lateinit var user: User
     private val viewModel: SearchViewModel by viewModel()
     private lateinit var binding: FragmentSearchBinding
-    private lateinit var tweetListAdapter: TweetListAdapter
 
     private val isLoadingObserver = Observer<Boolean> { isLoading ->
         binding.tagList.isClickable = !isLoading
@@ -109,7 +107,7 @@ class SearchFragment : BaseFragment() {
         updateList()
     }
 
-    fun updateList() {
+    override fun updateList() {
         binding.tagList?.visibility = View.GONE
         viewModel.searchTweets(currentHashtag)
     }
@@ -120,8 +118,8 @@ class SearchFragment : BaseFragment() {
             if (owner != userId) {
                 if (user.followUsers?.contains(owner) == true) {
                     AlertDialog.Builder(binding.tagList.context)
-                        .setTitle("Unfollow ${tweet.username}")
-                        .setPositiveButton("yes") { dialog, which ->
+                        .setTitle("${resources.getString(R.string.unfollow)} ${tweet.username}")
+                        .setPositiveButton(resources.getString(R.string.modal_yes)) { dialog, which ->
                             binding.tagList.isClickable = false
                             var followedUsers = user.followUsers
                             if (followedUsers == null) {
@@ -130,12 +128,12 @@ class SearchFragment : BaseFragment() {
                             followedUsers.remove(owner)
                             viewModel.unfollowUser(followedUsers)
                         }
-                        .setNegativeButton("cancel") { dialog, which ->  }
+                        .setNegativeButton(resources.getString(R.string.modal_cancel)) { dialog, which -> }
                         .show()
                 } else {
                     AlertDialog.Builder(binding.tagList.context)
-                        .setTitle("Follow ${tweet.username}")
-                        .setPositiveButton("yes") { dialog, which ->
+                        .setTitle("${resources.getString(R.string.follow)} ${tweet.username}")
+                        .setPositiveButton(resources.getString(R.string.modal_yes)) { dialog, which ->
                             binding.tagList.isClickable = false
                             var followedUsers = user.followUsers
                             if (followedUsers == null) {
@@ -146,7 +144,7 @@ class SearchFragment : BaseFragment() {
                                 viewModel.followUser(followedUsers!!)
                             }
                         }
-                        .setNegativeButton("cancel") { dialog, which ->  }
+                        .setNegativeButton(resources.getString(R.string.modal_cancel)) { dialog, which -> }
                         .show()
                 }
             }

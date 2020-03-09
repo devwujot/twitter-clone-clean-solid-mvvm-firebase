@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.devwujot.hashtag.framework.viewModel.LoginViewModel" />
@@ -27,73 +26,54 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/title"
-                    android:layout_margin="@dimen/grid_2x"/>
+                    style="@style/MainLogo" />
 
                 <!-- Email -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_TIL"
-                    android:layout_width="@dimen/standard_width"
-                    android:layout_height="wrap_content"
                     android:layout_below="@+id/imageView"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/grid_2x"
-                    >
+                    style="@style/FormFieldTIL">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email_ET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/hint_email"
                         android:inputType="textEmailAddress"
-                        android:text="@={viewModel.email}"
-                        android:hint="@string/hint_email" />
+                        android:text="@={viewModel.email}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Password -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/password_TIL"
-                    android:layout_width="@dimen/standard_width"
-                    android:layout_height="wrap_content"
                     android:layout_below="@+id/email_TIL"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/grid_2x">
+                    style="@style/FormFieldTIL">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password_ET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/hint_password"
                         android:inputType="textPassword"
-                        android:text="@={viewModel.password}"
-                        android:hint="@string/hint_password" />
+                        android:text="@={viewModel.password}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/buttonLogin"
-                    android:layout_width="@dimen/standard_width"
-                    android:layout_height="@dimen/standard_height"
-                    android:layout_below="@id/password_TIL"
+                    style="@style/StandardButton"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/button_login"
-                    android:layout_margin="@dimen/grid_2x"
+                    android:layout_below="@id/password_TIL"
                     android:onClick="@{() -> viewModel.onLoginClicked()}"
-                    style="@style/StandardButton"/>
+                    android:text="@string/button_login" />
 
                 <TextView
                     android:id="@+id/signupTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/LinkText"
                     android:layout_below="@id/buttonLogin"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/grid_2x"
-                    android:clickable="true"
-                    android:text="@string/text_signup"
                     android:onClick="@{() -> viewModel.onSignupClicked()}"
-                    style="@style/LinkText"/>
+                    android:text="@string/text_signup" />
 
             </RelativeLayout>
 
@@ -103,10 +83,7 @@
             android:id="@+id/loginProgressLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:visibility="gone"
-            android:background="@color/transparent_grey">
+            style="@style/ProgressLayout">
 
             <ProgressBar
                 android:layout_width="wrap_content"

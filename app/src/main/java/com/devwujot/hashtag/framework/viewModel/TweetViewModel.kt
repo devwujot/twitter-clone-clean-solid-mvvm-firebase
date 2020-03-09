@@ -48,24 +48,12 @@ class TweetViewModel(val useCases: UseCases) : ViewModel() {
 
     private fun getHashTag(source: String): ArrayList<String> {
         val hashTags = arrayListOf<String>()
-        var text = source
-        while (text.contains("#")) {
-            var hashTag = ""
-            val hash = text.indexOf("#")
-            text = text.substring(hash + 1)
-            val firstSpace = text.indexOf(" ")
-            val firstHash = text.indexOf("#")
-            if (firstSpace == -1 && firstHash == -1) {
-                hashTag = text.substring(0)
-            } else if (firstSpace != -1 && firstSpace < firstHash) {
-                hashTag = text.substring(0, firstSpace)
-                text = text.substring(firstSpace + 1)
-            } else {
-                hashTag = text.substring(0, firstHash)
-                text.substring(firstHash)
-            }
-            if (!hashTag.isNullOrEmpty()) {
-                hashTags.add(hashTag)
+        val text = source
+        val words = text.split(" ")
+        for (word in words) {
+            if (word.get(0) == '#') {
+                val tempWord = word.substring(1)
+                hashTags.add(tempWord)
             }
         }
         return hashTags

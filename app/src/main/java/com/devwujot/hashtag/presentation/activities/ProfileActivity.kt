@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -64,7 +63,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private val isLoadingObserver = Observer<Boolean> { isLoading ->
-        Log.e("Loading", "$isLoading")
         if (isLoading) {
             binding.profileProgressLayout.visibility = View.VISIBLE
         } else {
@@ -99,13 +97,13 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun startPhotoIntent() {
         val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
+        intent.type = resources.getString(R.string.intent_type)
         startActivityForResult(intent, REQUEST_CODE_PHOTO)
     }
 
     private fun storeImage(imageUri: Uri?) {
         imageUri?.let {
-            Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, resources.getString(R.string.toast_uploading), Toast.LENGTH_SHORT).show()
             viewModel.storeImage(it)
         }
     }

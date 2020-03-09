@@ -7,7 +7,7 @@ import com.devwujot.hashtag.core.data.Tweet
 import com.devwujot.hashtag.core.data.User
 import com.devwujot.hashtag.framework.UseCases
 
-class SearchViewModel(private val useCases: UseCases): ViewModel() {
+class SearchViewModel(private val useCases: UseCases) : ViewModel() {
 
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String>
@@ -39,11 +39,13 @@ class SearchViewModel(private val useCases: UseCases): ViewModel() {
     fun searchTweets(currentHashtag: String) {
         hashTag = currentHashtag
         useCases.searchTweets(_tweets, currentHashtag, _isLoading)
+        handleFollowed(currentHashtag)
     }
 
     fun onFollowHashTagsClicked(currentHashtag: String) {
-        handleFollowed(currentHashtag)
         useCases.updateFollowHashTags(currentHashtag, _user, _isLoading)
+        getCurrentUser()
+        handleFollowed(currentHashtag)
     }
 
     private fun handleFollowed(currentHashtag: String) {

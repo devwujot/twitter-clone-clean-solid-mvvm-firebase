@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -28,20 +27,13 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/grid_2x"
-                    android:src="@drawable/title" />
+                    style="@style/MainLogo" />
 
                 <!-- Username -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/username_TIL"
-                    android:layout_width="@dimen/standard_width"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/imageView"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/grid_2x">
+                    style="@style/FormFieldTIL"
+                    android:layout_below="@+id/imageView">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/username_ET"
@@ -56,11 +48,8 @@
                 <!-- Email -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_TIL"
-                    android:layout_width="@dimen/standard_width"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/username_TIL"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/grid_2x">
+                    style="@style/FormFieldTIL"
+                    android:layout_below="@+id/username_TIL">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email_ET"
@@ -75,11 +64,8 @@
                 <!-- Password -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/password_TIL"
-                    android:layout_width="@dimen/standard_width"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/email_TIL"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/grid_2x">
+                    style="@style/FormFieldTIL"
+                    android:layout_below="@+id/email_TIL">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password_ET"
@@ -94,23 +80,15 @@
                 <Button
                     android:id="@+id/buttonSignup"
                     style="@style/StandardButton"
-                    android:layout_width="@dimen/standard_width"
-                    android:layout_height="@dimen/standard_height"
-                    android:layout_below="@id/password_TIL"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/grid_2x"
+                    android:layout_below="@id/password_TIL"
                     android:onClick="@{() -> viewModel.onSignupClicked()}"
                     android:text="@string/button_signup" />
 
                 <TextView
                     android:id="@+id/loginTV"
                     style="@style/LinkText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_below="@id/buttonSignup"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/grid_2x"
-                    android:clickable="true"
                     android:onClick="@{() -> viewModel.onLoginClicked()}"
                     android:text="@string/text_login" />
 
@@ -120,12 +98,9 @@
 
         <LinearLayout
             android:id="@+id/signupProgressLayout"
+            style="@style/ProgressLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/transparent_grey"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_height="match_parent">
 
             <ProgressBar
                 android:layout_width="wrap_content"

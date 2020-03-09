@@ -1,6 +1,5 @@
 package com.devwujot.hashtag.presentation.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,5 +69,5 @@ class TweetListAdapter(var userId: String, val tweets: ArrayList<Tweet>) :
     }
 
     class TweetViewHolder(var view: ItemTagBinding) :
-            RecyclerView.ViewHolder(view.root)
+        RecyclerView.ViewHolder(view.root)
 }

@@ -6,5 +6,6 @@ import com.devwujot.hashtag.core.repository.FirebaseRepository
 
 class PostTweet(private val firebaseRepository: FirebaseRepository) {
 
-    operator fun invoke(tweet: Tweet, isLoading: MutableLiveData<Boolean>) = firebaseRepository.postTweet(tweet, isLoading)
+    operator fun invoke(tweet: Tweet, isLoading: MutableLiveData<Boolean>) =
+        firebaseRepository.postTweet(tweet, isLoading)
 }

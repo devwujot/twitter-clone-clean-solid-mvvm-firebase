@@ -7,7 +7,7 @@ import com.devwujot.hashtag.core.data.User
 import com.devwujot.hashtag.framework.UseCases
 import com.devwujot.hashtag.framework.utility.SingleLiveEvent
 
-class HomeActivityViewModel(val useCases: UseCases): ViewModel() {
+class HomeActivityViewModel(val useCases: UseCases) : ViewModel() {
 
     private val _logout = SingleLiveEvent<Boolean>()
     val logout: LiveData<Boolean>

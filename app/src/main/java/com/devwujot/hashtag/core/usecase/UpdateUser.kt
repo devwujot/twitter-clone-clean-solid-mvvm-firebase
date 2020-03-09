@@ -6,5 +6,6 @@ import com.devwujot.hashtag.core.repository.FirebaseRepository
 
 class UpdateUser(private val firebaseRepository: FirebaseRepository) {
 
-    operator fun invoke(user: MutableLiveData<User>, isLoading: MutableLiveData<Boolean>) = firebaseRepository.updateUser(user, isLoading)
+    operator fun invoke(user: MutableLiveData<User>, isLoading: MutableLiveData<Boolean>) =
+        firebaseRepository.updateUser(user, isLoading)
 }

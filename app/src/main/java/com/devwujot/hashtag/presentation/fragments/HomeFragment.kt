@@ -1,14 +1,14 @@
 package com.devwujot.hashtag.presentation.fragments
 
-
+import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.devwujot.hashtag.R
 import com.devwujot.hashtag.core.data.Tweet
 import com.devwujot.hashtag.core.data.User
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -19,11 +19,8 @@ import com.devwujot.hashtag.presentation.adapters.TweetListAdapter
 
 class HomeFragment : BaseFragment() {
 
-    private var userId = ""
-    private lateinit var user: User
     private val viewModel: HomeFragmentViewModel by viewModel()
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var tweetListAdapter: TweetListAdapter
 
     private val isLoadingObserver = Observer<Boolean> { isLoading ->
         binding.tagList.isClickable = !isLoading
@@ -33,20 +30,18 @@ class HomeFragment : BaseFragment() {
         userId?.let {
             this.userId = it
             tweetListAdapter.userId = it
-            Log.e("From Home feagment", userId)
         }
     }
 
     private val userObserver = Observer<User> {
-        user = it
-        Log.e("From Home feagment", it.toString())
+        this.user = it
     }
 
     private val tweetsObserver = Observer<ArrayList<Tweet>> { list ->
         list?.let {
             tweetListAdapter.updateTweets(list)
             binding.tagList?.visibility = View.VISIBLE
-            Log.e("From Home feagment", it.toString())
+
         }
     }
 
@@ -76,8 +71,6 @@ class HomeFragment : BaseFragment() {
             binding.swipeRefresh.isRefreshing = false
             updateList()
         }
-
-        viewModel.getHomeTweets()
     }
 
     override fun onDestroy() {
@@ -88,15 +81,15 @@ class HomeFragment : BaseFragment() {
 
     private fun initializeTweetListAdapter() {
         tweetListAdapter = TweetListAdapter(userId, arrayListOf())
-//        tweetListAdapter.onTweetClickListener = { tweet ->
-//            handleFollowUser(tweet)
-//        }
-//        tweetListAdapter.onLikeClickListener = { tweet ->
-//            viewModel.updateTweeLikes(tweet)
-//        }
-//        tweetListAdapter.onReTweetClickListener = { tweet ->
-//            viewModel.updateReTweet(tweet)
-//        }
+        tweetListAdapter.onTweetClickListener = { tweet ->
+            handleFollowUser(tweet)
+        }
+        tweetListAdapter.onLikeClickListener = { tweet ->
+            viewModel.updateTweeLikes(tweet)
+        }
+        tweetListAdapter.onReTweetClickListener = { tweet ->
+            viewModel.updateReTweet(tweet)
+        }
         binding.tagList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = tweetListAdapter
@@ -104,7 +97,47 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun updateList() {
+    override fun updateList() {
+        tweetListAdapter.updateTweets(arrayListOf())
         viewModel.getHomeTweets()
+    }
+
+    private fun handleFollowUser(tweet: Tweet) {
+        tweet.let {
+            val owner = tweet.userIds?.get(0)
+            if (owner != userId) {
+                if (user.followUsers?.contains(owner) == true) {
+                    AlertDialog.Builder(binding.tagList.context)
+                        .setTitle("${resources.getString(R.string.unfollow)} ${tweet.username}")
+                        .setPositiveButton(resources.getString(R.string.modal_yes)) { dialog, which ->
+                            binding.tagList.isClickable = false
+                            var followedUsers = user.followUsers
+                            if (followedUsers == null) {
+                                followedUsers = arrayListOf()
+                            }
+                            followedUsers.remove(owner)
+                            viewModel.unfollowUser(followedUsers)
+                        }
+                        .setNegativeButton(resources.getString(R.string.modal_cancel)) { dialog, which -> }
+                        .show()
+                } else {
+                    AlertDialog.Builder(binding.tagList.context)
+                        .setTitle("${resources.getString(R.string.follow)} ${tweet.username}")
+                        .setPositiveButton(resources.getString(R.string.modal_yes)) { dialog, which ->
+                            binding.tagList.isClickable = false
+                            var followedUsers = user.followUsers
+                            if (followedUsers == null) {
+                                followedUsers = arrayListOf()
+                            }
+                            owner?.let {
+                                followedUsers?.add(owner)
+                                viewModel.followUser(followedUsers!!)
+                            }
+                        }
+                        .setNegativeButton(resources.getString(R.string.modal_cancel)) { dialog, which -> }
+                        .show()
+                }
+            }
+        }
     }
 }

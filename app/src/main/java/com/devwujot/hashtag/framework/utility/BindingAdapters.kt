@@ -1,7 +1,6 @@
 package com.devwujot.hashtag.framework.utility
 
 import android.content.Context
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -11,13 +10,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.devwujot.hashtag.R
 import com.devwujot.hashtag.core.data.Tweet
-import com.devwujot.hashtag.core.data.User
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import org.w3c.dom.Text
 import java.text.DateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 @BindingAdapter("validateInput")
 fun TextInputLayout.setError(input: String) {

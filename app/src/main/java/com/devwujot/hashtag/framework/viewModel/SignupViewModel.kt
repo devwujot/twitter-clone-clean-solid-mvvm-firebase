@@ -7,7 +7,7 @@ import com.devwujot.hashtag.core.data.User
 import com.devwujot.hashtag.framework.UseCases
 import com.devwujot.hashtag.framework.utility.SingleLiveEvent
 
-class SignupViewModel(val useCases: UseCases): ViewModel() {
+class SignupViewModel(val useCases: UseCases) : ViewModel() {
 
     val username = MutableLiveData<String>()
     private val _usernameError = MutableLiveData<String>()

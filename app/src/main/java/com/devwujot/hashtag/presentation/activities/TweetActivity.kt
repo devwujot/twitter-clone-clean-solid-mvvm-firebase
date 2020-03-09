@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.devwujot.hashtag.R
-import com.devwujot.hashtag.core.data.User
 import com.devwujot.hashtag.databinding.ActivityTweetBinding
 import com.devwujot.hashtag.framework.utility.REQUEST_CODE_PHOTO
 import com.devwujot.hashtag.framework.utility.reObserve
@@ -21,13 +20,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class TweetActivity : AppCompatActivity() {
 
     companion object {
-        val PARAM_USER_ID = "UserId"
-        val PARAM_USER_NAME = "UserName"
-        fun newIntent(context: Context, userName: String?): Intent {
-            val intent = Intent(context, TweetActivity::class.java)
-            intent.putExtra(PARAM_USER_NAME, userName)
-            return intent
-        }
+        fun newIntent(context: Context) = Intent(context, TweetActivity::class.java)
     }
 
     private val viewModel: TweetViewModel by viewModel()
@@ -87,25 +80,15 @@ class TweetActivity : AppCompatActivity() {
         binding.executePendingBindings()
     }
 
-    private fun handleIntentParams() {
-        if (intent.hasExtra(PARAM_USER_ID) && intent.hasExtra(PARAM_USER_NAME)) {
-            val userId = intent.getStringExtra(PARAM_USER_ID)
-            val userName = intent.getStringExtra(PARAM_USER_NAME)
-        } else {
-            Toast.makeText(this, "Error creating tweet", Toast.LENGTH_SHORT).show()
-            finish()
-        }
-    }
-
     private fun startPhotoIntent() {
         val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
+        intent.type = resources.getString(R.string.intent_type)
         startActivityForResult(intent, REQUEST_CODE_PHOTO)
     }
 
     private fun storeImage(imageUri: Uri?) {
         imageUri?.let {
-            Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, resources.getString(R.string.toast_uploading), Toast.LENGTH_SHORT).show()
             viewModel.storeImage(it)
         }
     }

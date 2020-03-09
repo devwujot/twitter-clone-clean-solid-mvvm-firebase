@@ -67,5 +67,11 @@ class FirebaseRepository(private val dataSource: FirebaseDataSource) {
     fun getHomeTweets(
         user: MutableLiveData<User>,
         tweets: MutableLiveData<ArrayList<Tweet>>,
-        isLoading: MutableLiveData<Boolean>) = dataSource.getHomeTweets(user,tweets, isLoading)
+        isLoading: MutableLiveData<Boolean>
+    ) = dataSource.getHomeTweets(user, tweets, isLoading)
+
+    fun getMyActivityTweets(
+        tweets: MutableLiveData<ArrayList<Tweet>>,
+        isLoading: MutableLiveData<Boolean>
+    ) = dataSource.getMyActivityTweets(tweets, isLoading)
 }

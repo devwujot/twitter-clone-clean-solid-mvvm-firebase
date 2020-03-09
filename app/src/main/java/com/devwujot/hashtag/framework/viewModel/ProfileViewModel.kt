@@ -1,7 +1,6 @@
 package com.devwujot.hashtag.framework.viewModel
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +8,7 @@ import com.devwujot.hashtag.core.data.User
 import com.devwujot.hashtag.framework.UseCases
 import com.devwujot.hashtag.framework.utility.SingleLiveEvent
 
-class ProfileViewModel(val useCases: UseCases): ViewModel() {
+class ProfileViewModel(val useCases: UseCases) : ViewModel() {
 
     private val _isApplyClicked = SingleLiveEvent<Boolean>()
     val isApplyClicked: LiveData<Boolean>

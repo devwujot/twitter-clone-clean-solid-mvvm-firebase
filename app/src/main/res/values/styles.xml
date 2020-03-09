@@ -18,10 +18,18 @@
         <item name="android:textSize">@dimen/standard_text_size</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>
         <item name="android:background">@drawable/standard_button_rounded</item>
+        <item name="android:layout_width">@dimen/standard_width</item>
+        <item name="android:layout_height">@dimen/standard_height</item>
+        <item name="android:layout_margin">@dimen/grid_2x</item>
     </style>
 
     <style name="LinkText">
         <item name="android:textColor">@color/blue</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_margin">@dimen/grid_2x</item>
+        <item name="android:clickable">true</item>
     </style>
 
     <style name="Heading">
@@ -30,4 +38,26 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="MainLogo">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:src">@drawable/title</item>
+        <item name="android:layout_margin">@dimen/grid_2x</item>
+    </style>
+
+    <style name="FormFieldTIL">
+        <item name="android:layout_width">@dimen/standard_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_margin">@dimen/grid_2x</item>
+    </style>
+
+    <style name="ProgressLayout">
+        <item name="android:background">@color/transparent_grey</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:elevation">@dimen/progress_layout_elevation</item>
+    </style>
 </resources>

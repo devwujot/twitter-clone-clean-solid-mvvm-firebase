@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
@@ -52,8 +51,6 @@ class HomeActivity : AppCompatActivity() {
         if (uid.isNullOrEmpty()) {
             startActivity(LoginActivity.newIntent(this))
             finish()
-        } else {
-            Log.e("SUCCESS:", "Got it.")
         }
     }
 
@@ -80,7 +77,7 @@ class HomeActivity : AppCompatActivity() {
 
     private val isAddTweetClickedObserver = Observer<Boolean> { isAddTweetClicked ->
         if (isAddTweetClicked) {
-            startActivity(TweetActivity.newIntent(this, user?.username))
+            startActivity(TweetActivity.newIntent(this))
         }
     }
 
@@ -125,20 +122,23 @@ class HomeActivity : AppCompatActivity() {
                 }
 
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    when(tab?.position) {
+                    when (tab?.position) {
                         0 -> {
                             binding.titleBar.visibility = View.VISIBLE
-                            binding.titleBar.text = "Home"
+                            binding.titleBar.text = resources.getString(R.string.title_home)
                             binding.searchBar.visibility = View.GONE
+                            homeFragment.updateList()
                         }
                         1 -> {
                             binding.titleBar.visibility = View.GONE
                             binding.searchBar.visibility = View.VISIBLE
+                            searchFragment.updateList()
                         }
                         2 -> {
                             binding.titleBar.visibility = View.VISIBLE
-                            binding.titleBar.text = "My Activity"
+                            binding.titleBar.text = resources.getString(R.string.title_myactivity)
                             binding.searchBar.visibility = View.GONE
+                            myActivityFragment.updateList()
                         }
                     }
                 }

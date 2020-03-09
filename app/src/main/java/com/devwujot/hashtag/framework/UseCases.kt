@@ -2,7 +2,7 @@ package com.devwujot.hashtag.framework
 
 import com.devwujot.hashtag.core.usecase.*
 
-data class UseCases (
+data class UseCases(
     val login: LoginUser,
     val getCurrentUser: GetCurrentUser,
     val logout: Logout,
@@ -18,5 +18,6 @@ data class UseCases (
     val updateReTweet: UpdateReTweet,
     val followUser: FollowUser,
     val unfollowUser: UnfollowUser,
-    val getHomeTweets: GetHomeTweets
-    )
+    val getHomeTweets: GetHomeTweets,
+    val getMyActivityTweets: GetMyActivityTweets
+)

@@ -6,5 +6,6 @@ import com.devwujot.hashtag.core.repository.FirebaseRepository
 
 class LoginUser(private val firebaseRepository: FirebaseRepository) {
 
-     operator fun invoke(authCridential: AuthCridential, uid: MutableLiveData<String>) = firebaseRepository.login(authCridential, uid)
+    operator fun invoke(authCridential: AuthCridential, uid: MutableLiveData<String>) =
+        firebaseRepository.login(authCridential, uid)
 }

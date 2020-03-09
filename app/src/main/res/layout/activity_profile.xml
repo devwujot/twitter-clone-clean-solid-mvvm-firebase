@@ -5,9 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="user"
             type="com.devwujot.hashtag.core.data.User" />
+
         <variable
             name="viewModel"
             type="com.devwujot.hashtag.framework.viewModel.ProfileViewModel" />
@@ -21,7 +23,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true" >
+            android:fillViewport="true">
 
             <RelativeLayout
                 android:id="@+id/profileLayout"
@@ -36,24 +38,23 @@
                     android:layout_width="@dimen/standard_width"
                     android:layout_height="@dimen/standard_width"
                     android:layout_marginBottom="@dimen/grid_2x"
-                    android:src="@drawable/default_user"
                     android:onClick="@{() -> viewModel.onImageClicked()}"
-                    app:loadImage="@{user.imageUrl}"
-                    />
+                    android:src="@drawable/default_user"
+                    app:loadImage="@{user.imageUrl}" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/usernameTIL"
                     android:layout_width="@dimen/standard_width"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/grid_2x"
-                    android:layout_below="@id/photo" >
+                    android:layout_below="@id/photo"
+                    android:paddingBottom="@dimen/grid_2x">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/usernameET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_username"
-                        app:updateField="@{user.username}"/>
+                        app:updateField="@{user.username}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,8 +62,8 @@
                     android:id="@+id/emailTIL"
                     android:layout_width="@dimen/standard_width"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/grid_2x"
-                    android:layout_below="@id/usernameTIL" >
+                    android:layout_below="@id/usernameTIL"
+                    android:paddingBottom="@dimen/grid_2x">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emailET"
@@ -75,23 +76,23 @@
 
                 <Button
                     android:id="@+id/applyButton"
+                    style="@style/StandardButton"
                     android:layout_width="@dimen/standard_width"
                     android:layout_height="@dimen/standard_height"
                     android:layout_below="@id/emailTIL"
                     android:layout_marginBottom="@dimen/grid_2x"
-                    android:text="@string/button_apply"
                     android:onClick="@{() -> viewModel.onApplyButtonClicked()}"
-                    style="@style/StandardButton"/>
+                    android:text="@string/button_apply" />
 
                 <Button
                     android:id="@+id/signoutButton"
+                    style="@style/StandardButton"
                     android:layout_width="@dimen/standard_width"
                     android:layout_height="@dimen/standard_height"
                     android:layout_below="@+id/applyButton"
                     android:layout_marginBottom="@dimen/grid_2x"
-                    android:text="@string/button_signout"
                     android:onClick="@{() -> viewModel.onSignoutButtonClicked()}"
-                    style="@style/StandardButton"/>
+                    android:text="@string/button_signout" />
 
             </RelativeLayout>
 
@@ -101,11 +102,7 @@
             android:id="@+id/profileProgressLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:visibility="gone"
-            android:elevation="5dp"
-            android:background="@color/transparent_grey">
+            style="@style/ProgressLayout">
 
             <ProgressBar
                 android:layout_width="wrap_content"

@@ -22,6 +22,8 @@ val useCasesModule = module {
             UpdateReTweet(get()),
             FollowUser(get()),
             UnfollowUser(get()),
-            GetHomeTweets(get())
-        )}
+            GetHomeTweets(get()),
+            GetMyActivityTweets(get())
+        )
+    }
 }

@@ -313,20 +313,66 @@ class FirebaseDataSourceImpl(var context: Context) : FirebaseDataSource {
                 firebaseDB.collection(DATA_TWEETS).whereArrayContains(DATA_TWEET_HASHTAGS, hashTag)
                     .get()
                     .addOnSuccessListener { list ->
-                        Log.e("From DB", list.toString())
                         for (document in list.documents) {
                             val tweet = document.toObject(Tweet::class.java)
                             tweet?.let { newTweets.add(it) }
                         }
-                        tweets.postValue(newTweets)
+                        tweets.postValue(ArrayList(sortTweetList(newTweets)))
                         isLoading.postValue(false)
                     }
                     .addOnFailureListener { e ->
                         e.printStackTrace()
                         isLoading.postValue(false)
-                        Log.e("From DB", "failure")
+                    }
+            }
+
+            for (followedUser in it.followUsers!!) {
+                firebaseDB.collection(DATA_TWEETS)
+                    .whereArrayContains(DATA_TWEET_USERIDS, followedUser).get()
+                    .addOnSuccessListener { list ->
+                        for (document in list.documents) {
+                            val tweet = document.toObject(Tweet::class.java)
+                            tweet?.let { newTweets.add(it) }
+                            tweets.postValue(ArrayList(sortTweetList(newTweets)))
+                            isLoading.postValue(false)
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        e.printStackTrace()
+                        isLoading.postValue(false)
                     }
             }
         }
+    }
+
+    private fun removeDuplicates(originalList: List<Tweet>) =
+        originalList.distinctBy { it.timestamp }
+
+    private fun sortTweetList(tweets: List<Tweet>): List<Tweet> {
+        val sortedTweets = tweets.sortedWith(compareByDescending { it.timestamp })
+        return removeDuplicates(sortedTweets)
+    }
+
+    override fun getMyActivityTweets(
+        tweets: MutableLiveData<ArrayList<Tweet>>,
+        isLoading: MutableLiveData<Boolean>
+    ) {
+        isLoading.postValue(true)
+        val newTweets = arrayListOf<Tweet>()
+
+        firebaseDB.collection(DATA_TWEETS)
+            .whereArrayContains(DATA_TWEET_USERIDS, firebaseAuth.uid!!).get()
+            .addOnSuccessListener { list ->
+                for (document in list.documents) {
+                    val tweet = document.toObject(Tweet::class.java)
+                    tweet?.let { newTweets.add(tweet) }
+                }
+                tweets.postValue(ArrayList(sortTweetList(newTweets)))
+                isLoading.postValue(false)
+            }
+            .addOnFailureListener { e ->
+                e.printStackTrace()
+                isLoading.postValue(false)
+            }
     }
 }

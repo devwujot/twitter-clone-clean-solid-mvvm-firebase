@@ -51,5 +51,14 @@ interface FirebaseDataSource {
 
     fun unfollowUser(followedUsers: ArrayList<String>, isLoading: MutableLiveData<Boolean>)
 
-    fun getHomeTweets(user: MutableLiveData<User>, tweets: MutableLiveData<ArrayList<Tweet>>, isLoading: MutableLiveData<Boolean>)
+    fun getHomeTweets(
+        user: MutableLiveData<User>,
+        tweets: MutableLiveData<ArrayList<Tweet>>,
+        isLoading: MutableLiveData<Boolean>
+    )
+
+    fun getMyActivityTweets(
+        tweets: MutableLiveData<ArrayList<Tweet>>,
+        isLoading: MutableLiveData<Boolean>
+    )
 }
