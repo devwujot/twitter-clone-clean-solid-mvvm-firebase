@@ -35,27 +35,6 @@ class SignupActivity : AppCompatActivity() {
         }
     }
 
-    private val emailErrorObserver = Observer<String> { error ->
-        error?.let {
-            binding.emailTIL.error = error
-            binding.emailTIL.isErrorEnabled = true
-        }
-    }
-
-    private val passwordErrorObserver = Observer<String> { error ->
-        error?.let {
-            binding.passwordTIL.error = error
-            binding.passwordTIL.isErrorEnabled = true
-        }
-    }
-
-    private val usernameErrorObserver = Observer<String> { error ->
-        error?.let {
-            binding.usernameTIL.error = error
-            binding.usernameTIL.isErrorEnabled = true
-        }
-    }
-
     private val uidObserver = Observer<String> { uid ->
         uid?.let {
             startActivity(
@@ -84,9 +63,6 @@ class SignupActivity : AppCompatActivity() {
 
         viewModel.apply {
             goToLogin.reObserve(this@SignupActivity, goToLoginObserver)
-            usernameError.reObserve(this@SignupActivity, usernameErrorObserver)
-            emailError.reObserve(this@SignupActivity, emailErrorObserver)
-            passwordError.reObserve(this@SignupActivity, passwordErrorObserver)
             uid.reObserve(this@SignupActivity, uidObserver)
             validate.reObserve(this@SignupActivity, validateObserver)
         }

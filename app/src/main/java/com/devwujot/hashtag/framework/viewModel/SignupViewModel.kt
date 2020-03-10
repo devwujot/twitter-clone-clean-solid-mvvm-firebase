@@ -10,17 +10,8 @@ import com.devwujot.hashtag.framework.utility.SingleLiveEvent
 class SignupViewModel(val useCases: UseCases) : ViewModel() {
 
     val username = MutableLiveData<String>()
-    private val _usernameError = MutableLiveData<String>()
-    val usernameError: LiveData<String>
-        get() = _usernameError
     val email = MutableLiveData<String>()
-    private val _emailError = MutableLiveData<String>()
-    val emailError: LiveData<String>
-        get() = _emailError
     val password = MutableLiveData<String>()
-    private val _passwordError = MutableLiveData<String>()
-    val passwordError: LiveData<String>
-        get() = _passwordError
     private val _goToLogin = SingleLiveEvent<Boolean>()
     val goToLogin: LiveData<Boolean>
         get() = _goToLogin
