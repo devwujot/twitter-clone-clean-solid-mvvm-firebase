@@ -14,3 +14,7 @@ val DATA_TWEETS = "Tweets"
 val DATA_TWEET_HASHTAGS = "hashtags"
 val DATA_TWEET_LIKES = "likes"
 val DATA_TWEET_USERIDS = "userIds"
+
+// Validator
+val FORM_USERNAME_MIN_CHAR = 3
+val FORM_PASSWORD_MIN_CHAR = 6

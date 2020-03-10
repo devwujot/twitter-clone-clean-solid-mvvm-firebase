@@ -23,4 +23,12 @@
     <string name="modal_cancel">cancel</string>
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
+
+    <!-- Form Validator Errors -->
+    <string name="form_error_email_empty">Email cannot be empty</string>
+    <string name="form_error_email_incorrect">Incorrect email pattern</string>
+    <string name="form_error_password_empty">Password cannot be empty</string>
+    <string name="form_error_username_empty">Username cannot be empty</string>
+    <string name="form_error_password_min">Password cannot be less than 6 characters</string>
+    <string name="form_error_username_min">Username cannot be less than 3 characters</string>
 </resources>

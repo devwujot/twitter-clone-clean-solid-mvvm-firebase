@@ -2,6 +2,7 @@ package com.devwujot.hashtag
 
 import android.app.Application
 import androidx.multidex.MultiDex
+import com.devwujot.hashtag.framework.di.formValidatorModule
 import com.devwujot.hashtag.framework.di.repositoryModule
 import com.devwujot.hashtag.framework.di.useCasesModule
 import com.devwujot.hashtag.framework.di.viewModelModule
@@ -18,7 +19,7 @@ class MyApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@MyApplication)
-            modules(listOf(repositoryModule, useCasesModule, viewModelModule))
+            modules(listOf(repositoryModule, useCasesModule, viewModelModule, formValidatorModule))
         }
     }
 }

@@ -23,6 +23,9 @@ class LoginViewModel(val useCases: UseCases) : ViewModel() {
     private val _goToSignup = SingleLiveEvent<Boolean>()
     val goToSignup: LiveData<Boolean>
         get() = _goToSignup
+    private val _validate = MutableLiveData<Boolean>()
+    val validate: LiveData<Boolean>
+        get() = _validate
 
     init {
         getCurrentUser()
@@ -33,24 +36,13 @@ class LoginViewModel(val useCases: UseCases) : ViewModel() {
         _uid.postValue(id)
     }
 
-    private fun login() {
+    fun login() {
         val authCridential = AuthCridential(email.value!!, password.value!!)
         useCases.login(authCridential, _uid)
     }
 
     fun onLoginClicked() {
-        var proceed = true
-        if (email.value.isNullOrEmpty()) {
-            _emailError.postValue("Email is required")
-            proceed = false
-        }
-        if (password.value.isNullOrEmpty()) {
-            _passwordError.postValue("Password is required")
-            proceed = false
-        }
-        if (proceed) {
-            login()
-        }
+        _validate.postValue(true)
     }
 
     fun onSignupClicked() {

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="formValidator"
+            type="com.devwujot.hashtag.framework.utility.FormValidator" />
         <variable
             name="viewModel"
             type="com.devwujot.hashtag.framework.viewModel.LoginViewModel" />
@@ -32,6 +35,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_TIL"
                     android:layout_below="@+id/imageView"
+                    app:textChangedListener="@{formValidator}"
                     style="@style/FormFieldTIL">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -48,6 +52,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/password_TIL"
                     android:layout_below="@+id/email_TIL"
+                    app:textChangedListener="@{formValidator}"
                     style="@style/FormFieldTIL">
 
                     <com.google.android.material.textfield.TextInputEditText

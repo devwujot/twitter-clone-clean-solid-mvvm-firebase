@@ -27,6 +27,9 @@ class SignupViewModel(val useCases: UseCases) : ViewModel() {
     private val _uid = SingleLiveEvent<String>()
     val uid: LiveData<String>
         get() = _uid
+    private val _validate = MutableLiveData<Boolean>()
+    val validate: LiveData<Boolean>
+        get() = _validate
 
     init {
         getCurrentUser()
@@ -38,25 +41,10 @@ class SignupViewModel(val useCases: UseCases) : ViewModel() {
     }
 
     fun onSignupClicked() {
-        var proceed = true
-        if (username.value.isNullOrEmpty()) {
-            _usernameError.postValue("Username is required")
-            proceed = false
-        }
-        if (email.value.isNullOrEmpty()) {
-            _emailError.postValue("Email is required")
-            proceed = false
-        }
-        if (password.value.isNullOrEmpty()) {
-            _passwordError.postValue("Password is required")
-            proceed = false
-        }
-        if (proceed) {
-            signup()
-        }
+        _validate.postValue(true)
     }
 
-    private fun signup() {
+    fun signup() {
         val user = User(username.value!!, email.value!!)
         useCases.signup(user, password.value!!, _uid)
     }

@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="formValidator"
+            type="com.devwujot.hashtag.framework.utility.FormValidator" />
         <variable
             name="viewModel"
             type="com.devwujot.hashtag.framework.viewModel.SignupViewModel" />
@@ -33,6 +35,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/username_TIL"
                     style="@style/FormFieldTIL"
+                    app:textChangedListener="@{formValidator}"
                     android:layout_below="@+id/imageView">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -49,6 +52,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_TIL"
                     style="@style/FormFieldTIL"
+                    app:textChangedListener="@{formValidator}"
                     android:layout_below="@+id/username_TIL">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -65,6 +69,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/password_TIL"
                     style="@style/FormFieldTIL"
+                    app:textChangedListener="@{formValidator}"
                     android:layout_below="@+id/email_TIL">
 
                     <com.google.android.material.textfield.TextInputEditText

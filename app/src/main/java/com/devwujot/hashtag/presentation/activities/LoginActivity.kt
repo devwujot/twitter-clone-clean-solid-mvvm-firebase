@@ -4,17 +4,15 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.devwujot.hashtag.R
 import com.devwujot.hashtag.databinding.ActivityLoginBinding
+import com.devwujot.hashtag.framework.utility.FormValidator
 import com.devwujot.hashtag.framework.viewModel.LoginViewModel
 import com.devwujot.hashtag.framework.utility.reObserve
-import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_login.*
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
@@ -24,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private val viewModel: LoginViewModel by viewModel()
+    private val formValidator: FormValidator by inject()
     private lateinit var binding: ActivityLoginBinding
 
     private val uidObserver = Observer<String> { uid ->
@@ -62,14 +61,18 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private val validateObserver = Observer<Boolean> { validationClicked ->
+        if (validationClicked) {
+            handleValidation()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.viewModel = viewModel
-
-        setTextChangeListener(binding.emailET, binding.emailTIL)
-        setTextChangeListener(binding.passwordET, binding.passwordTIL)
+        binding.formValidator = formValidator
 
         loginProgressLayout.setOnTouchListener { v, event -> true }
 
@@ -78,20 +81,15 @@ class LoginActivity : AppCompatActivity() {
             emailError.reObserve(this@LoginActivity, emailErrorObserver)
             passwordError.reObserve(this@LoginActivity, passwordErrorObserver)
             goToSignup.reObserve(this@LoginActivity, goToSignupObserver)
+            validate.reObserve(this@LoginActivity, validateObserver)
         }
     }
 
-    fun setTextChangeListener(et: EditText, til: TextInputLayout) {
-        et.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                til.isErrorEnabled = false
-            }
-        })
+    private fun handleValidation() {
+        binding.emailTIL.error = formValidator.validateEmail(binding.emailET.text.toString())
+        binding.passwordTIL.error = formValidator.validatePassword(binding.passwordET.text.toString())
+        if (binding.emailTIL.error == null || binding.passwordTIL.error == null) {
+            viewModel.login()
+        }
     }
 }
