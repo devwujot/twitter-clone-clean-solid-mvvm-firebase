@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.devwujot.hashtag.core.data.AuthCridential
+import com.devwujot.hashtag.core.data.Resource
 import com.devwujot.hashtag.framework.UseCases
 import com.devwujot.hashtag.framework.utility.SingleLiveEvent
 
@@ -20,6 +21,9 @@ class LoginViewModel(val useCases: UseCases) : ViewModel() {
     private val _validate = MutableLiveData<Boolean>()
     val validate: LiveData<Boolean>
         get() = _validate
+    private val _loginResponse = MutableLiveData<Resource<*>>()
+    val loginResponse: LiveData<Resource<*>>
+        get() = _loginResponse
 
     init {
         getCurrentUser()
@@ -32,7 +36,7 @@ class LoginViewModel(val useCases: UseCases) : ViewModel() {
 
     fun login() {
         val authCridential = AuthCridential(email.value!!, password.value!!)
-        useCases.login(authCridential, _uid)
+        useCases.login(authCridential, _loginResponse)
     }
 
     fun onLoginClicked() {

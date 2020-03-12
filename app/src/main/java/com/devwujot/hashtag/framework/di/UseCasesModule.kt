@@ -23,7 +23,8 @@ val useCasesModule = module {
             FollowUser(get()),
             UnfollowUser(get()),
             GetHomeTweets(get()),
-            GetMyActivityTweets(get())
+            GetMyActivityTweets(get()),
+            TestLogin(get())
         )
     }
 }

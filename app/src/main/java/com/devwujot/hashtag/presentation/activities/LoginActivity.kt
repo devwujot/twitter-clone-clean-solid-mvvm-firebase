@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.devwujot.hashtag.R
+import com.devwujot.hashtag.core.data.Resource
 import com.devwujot.hashtag.databinding.ActivityLoginBinding
 import com.devwujot.hashtag.framework.utility.FormValidator
 import com.devwujot.hashtag.framework.viewModel.LoginViewModel
@@ -53,6 +56,32 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private val loginResponseObserver = Observer<Resource<*>> { loginResponse ->
+        when (loginResponse.status) {
+            Resource.Status.SUCCESS -> {
+                binding.loginProgressLayout.visibility = View.GONE
+                loginResponse.data?.let {
+                    startActivity(
+                        (HomeActivity.newIntent(
+                            this
+                        ))
+                    )
+                    finish()
+                }
+            }
+            Resource.Status.ERROR -> {
+                binding.loginProgressLayout.visibility = View.GONE
+                Toast.makeText(this, loginResponse.errorMessage.toString(), Toast.LENGTH_SHORT)
+                    .show()
+            }
+            Resource.Status.LOADING -> {
+                if (loginResponse.data == true) {
+                    binding.loginProgressLayout.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -66,13 +95,16 @@ class LoginActivity : AppCompatActivity() {
             uid.reObserve(this@LoginActivity, uidObserver)
             goToSignup.reObserve(this@LoginActivity, goToSignupObserver)
             validate.reObserve(this@LoginActivity, validateObserver)
+            loginResponse.reObserve(this@LoginActivity, loginResponseObserver)
         }
     }
 
     private fun handleValidation() {
         binding.emailTIL.error = formValidator.validateEmail(binding.emailET.text.toString())
-        binding.passwordTIL.error = formValidator.validatePassword(binding.passwordET.text.toString())
-        if (binding.emailTIL.error == null || binding.passwordTIL.error == null) {
+        binding.passwordTIL.error =
+            formValidator.validatePassword(binding.passwordET.text.toString())
+        if (binding.emailTIL.error.isNullOrEmpty() && binding.passwordTIL.error.isNullOrEmpty()
+        ) {
             viewModel.login()
         }
     }

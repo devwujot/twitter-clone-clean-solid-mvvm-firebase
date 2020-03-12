@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.devwujot.hashtag.R
+import com.devwujot.hashtag.core.data.Resource
 import com.devwujot.hashtag.core.data.User
 import com.devwujot.hashtag.databinding.ActivityProfileBinding
 import com.devwujot.hashtag.framework.utility.REQUEST_CODE_PHOTO
@@ -70,6 +71,26 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
+    private val updateResponseObserver = Observer<Resource<*>> { updateResponse ->
+        when (updateResponse.status) {
+            Resource.Status.SUCCESS -> {
+                binding.profileProgressLayout.visibility = View.GONE
+                Toast.makeText(this, updateResponse.data.toString(), Toast.LENGTH_SHORT)
+                    .show()
+            }
+            Resource.Status.ERROR -> {
+                binding.profileProgressLayout.visibility = View.GONE
+                Toast.makeText(this, updateResponse.errorMessage.toString(), Toast.LENGTH_SHORT)
+                    .show()
+            }
+            Resource.Status.LOADING -> {
+                if (updateResponse.data == true) {
+                    binding.profileProgressLayout.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -85,6 +106,7 @@ class ProfileActivity : AppCompatActivity() {
             user.reObserve(this@ProfileActivity, userObserver)
             isImageClicked.reObserve(this@ProfileActivity, isImageClickedObserver)
             isLoading.reObserve(this@ProfileActivity, isLoadingObserver)
+            updateResponse.reObserve(this@ProfileActivity, updateResponseObserver)
         }
     }
 

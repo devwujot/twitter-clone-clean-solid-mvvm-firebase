@@ -28,11 +28,6 @@ class HomeActivityViewModel(val useCases: UseCases) : ViewModel() {
     val isAddTweetClicked: LiveData<Boolean>
         get() = _isAddTweetClicked
 
-    fun onLogoutClicked() {
-        useCases.logout()
-        _logout.postValue(true)
-    }
-
     init {
         getCurrentUser()
     }

@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.devwujot.hashtag.core.data.Resource
 import com.devwujot.hashtag.core.data.User
 import com.devwujot.hashtag.framework.UseCases
 import com.devwujot.hashtag.framework.utility.SingleLiveEvent
@@ -28,6 +29,14 @@ class ProfileViewModel(val useCases: UseCases) : ViewModel() {
     private val _isLoading = SingleLiveEvent<Boolean>()
     val isLoading: LiveData<Boolean>
         get() = _isLoading
+
+    private val _getUserResponse = MutableLiveData<Resource<*>>()
+    val getUserResponse: LiveData<Resource<*>>
+        get() = _getUserResponse
+
+    private val _updateResponse = MutableLiveData<Resource<*>>()
+    val updateResponse: LiveData<Resource<*>>
+        get() = _updateResponse
 
     init {
         getCurrentUser()
@@ -55,7 +64,7 @@ class ProfileViewModel(val useCases: UseCases) : ViewModel() {
             it.username = username
             it.email = email
         }
-        useCases.updateUser(_user, _isLoading)
+        useCases.updateUser(_user, _updateResponse)
     }
 
     fun onImageClicked() {

@@ -36,7 +36,7 @@ class HomeFragmentViewModel(val useCases: UseCases) : ViewModel() {
 
     fun getHomeTweets() {
         useCases.getHomeTweets(_user, _tweets, _isLoading)
-        useCases.getUser(_user, _isLoading)
+        getCurrentUser()
     }
 
     fun updateTweeLikes(tweet: Tweet) {

@@ -3,6 +3,7 @@ package com.devwujot.hashtag.framework.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.devwujot.hashtag.core.data.Resource
 import com.devwujot.hashtag.core.data.User
 import com.devwujot.hashtag.framework.UseCases
 import com.devwujot.hashtag.framework.utility.SingleLiveEvent
@@ -21,6 +22,9 @@ class SignupViewModel(val useCases: UseCases) : ViewModel() {
     private val _validate = MutableLiveData<Boolean>()
     val validate: LiveData<Boolean>
         get() = _validate
+    private val _signupResponse = MutableLiveData<Resource<*>>()
+    val signupResponse: LiveData<Resource<*>>
+        get() = _signupResponse
 
     init {
         getCurrentUser()
@@ -37,7 +41,7 @@ class SignupViewModel(val useCases: UseCases) : ViewModel() {
 
     fun signup() {
         val user = User(username.value!!, email.value!!)
-        useCases.signup(user, password.value!!, _uid)
+        useCases.signup(user, password.value!!, _signupResponse)
     }
 
     fun onLoginClicked() {

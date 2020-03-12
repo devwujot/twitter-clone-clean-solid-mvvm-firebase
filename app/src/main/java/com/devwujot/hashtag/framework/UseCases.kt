@@ -19,5 +19,6 @@ data class UseCases(
     val followUser: FollowUser,
     val unfollowUser: UnfollowUser,
     val getHomeTweets: GetHomeTweets,
-    val getMyActivityTweets: GetMyActivityTweets
+    val getMyActivityTweets: GetMyActivityTweets,
+    val testLogin: TestLogin
 )

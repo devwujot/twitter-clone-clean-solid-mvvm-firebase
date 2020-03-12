@@ -24,7 +24,13 @@ class MyActivityFragment : BaseFragment() {
     private lateinit var binding: FragmentMyActivityBinding
 
     private val isLoadingObserver = Observer<Boolean> { isLoading ->
-        binding.tagList.isClickable = !isLoading
+        if (isLoading) {
+            binding.tagList.isClickable = false
+            binding.myActivityProgressLayout.visibility = View.VISIBLE
+        } else {
+            binding.tagList.isClickable = true
+            binding.myActivityProgressLayout.visibility = View.GONE
+        }
     }
 
     private val userIdObserver = Observer<String> { userId ->

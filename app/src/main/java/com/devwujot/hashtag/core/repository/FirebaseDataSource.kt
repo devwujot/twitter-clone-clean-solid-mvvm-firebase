@@ -3,23 +3,24 @@ package com.devwujot.hashtag.core.repository
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.devwujot.hashtag.core.data.AuthCridential
+import com.devwujot.hashtag.core.data.Resource
 import com.devwujot.hashtag.core.data.Tweet
 import com.devwujot.hashtag.core.data.User
 import com.devwujot.hashtag.framework.utility.SingleLiveEvent
 
 interface FirebaseDataSource {
 
-    fun login(authCridential: AuthCridential, uid: MutableLiveData<String>)
+    fun login(authCridential: AuthCridential, loginResponse: MutableLiveData<Resource<*>>)
 
     fun getCurrentUser(): String?
 
     fun logout()
 
-    fun signup(user: User, password: String, uid: MutableLiveData<String>)
+    fun signup(user: User, password: String, signupResponse: MutableLiveData<Resource<*>>)
 
     fun getUser(user: MutableLiveData<User>, isLoading: MutableLiveData<Boolean>)
 
-    fun updateUser(user: MutableLiveData<User>, isLoading: MutableLiveData<Boolean>)
+    fun updateUser(user: MutableLiveData<User>, updateResponse: MutableLiveData<Resource<*>>)
 
     fun storeImage(imageUrl: Uri, user: MutableLiveData<User>, isLoading: SingleLiveEvent<Boolean>)
 
@@ -61,4 +62,6 @@ interface FirebaseDataSource {
         tweets: MutableLiveData<ArrayList<Tweet>>,
         isLoading: MutableLiveData<Boolean>
     )
+
+    fun testLogin(authCridential: AuthCridential, loginResponse: MutableLiveData<Resource<*>>)
 }

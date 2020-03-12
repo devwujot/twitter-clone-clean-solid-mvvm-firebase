@@ -5,6 +5,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.devwujot.hashtag.core.data.AuthCridential
+import com.devwujot.hashtag.core.data.Resource
 import com.devwujot.hashtag.core.data.Tweet
 import com.devwujot.hashtag.core.data.User
 import com.devwujot.hashtag.core.repository.FirebaseDataSource
@@ -28,20 +29,25 @@ class FirebaseDataSourceImpl(var context: Context) : FirebaseDataSource {
         FirebaseStorage.getInstance().reference
     }
 
-    override fun login(authCridential: AuthCridential, uid: MutableLiveData<String>) {
+    override fun login(
+        authCridential: AuthCridential,
+        loginResponse: MutableLiveData<Resource<*>>
+    ) {
+        loginResponse.postValue(Resource.loading(true))
         firebaseAuth.signInWithEmailAndPassword(
             authCridential.email,
             authCridential.password
         )
             .addOnCompleteListener { task ->
                 if (!task.isSuccessful) {
-                    Log.d("Login", "User not found.")
+                    loginResponse.postValue(Resource.error("Could not login"))
                 } else {
-                    uid.postValue(firebaseAuth.currentUser?.uid)
+                    loginResponse.postValue(Resource.success(firebaseAuth.currentUser?.uid))
                 }
             }
             .addOnFailureListener { e ->
                 e.printStackTrace()
+                loginResponse.postValue(Resource.error(e.message))
             }
     }
 
@@ -49,24 +55,26 @@ class FirebaseDataSourceImpl(var context: Context) : FirebaseDataSource {
 
     override fun getCurrentUser() = firebaseAuth.currentUser?.uid
 
-    override fun signup(user: User, password: String, uid: MutableLiveData<String>) {
+    override fun signup(user: User, password: String, signupResponse: MutableLiveData<Resource<*>>) {
+        signupResponse.postValue(Resource.loading(true))
         firebaseAuth.createUserWithEmailAndPassword(
             user.email,
             password
         )
             .addOnCompleteListener { task ->
                 if (!task.isSuccessful) {
-                    Log.d("Signup", "Could not create a user.")
+                    signupResponse.postValue(Resource.error("Could not create a user"))
                 } else {
                     val email = user.email
                     val name = user.username
                     val newUser = User(name, email)
                     firebaseDB.collection(DATA_USERS).document(firebaseAuth.uid!!).set(newUser)
-                    uid.postValue(firebaseAuth.currentUser?.uid)
+                    signupResponse.postValue(Resource.success(firebaseAuth.currentUser?.uid))
                 }
             }
             .addOnFailureListener { e ->
                 e.printStackTrace()
+                signupResponse.postValue(Resource.error(e.message))
             }
     }
 
@@ -84,21 +92,19 @@ class FirebaseDataSourceImpl(var context: Context) : FirebaseDataSource {
             }
     }
 
-    override fun updateUser(user: MutableLiveData<User>, isLoading: MutableLiveData<Boolean>) {
+    override fun updateUser(user: MutableLiveData<User>, updateResponse: MutableLiveData<Resource<*>>) {
         user.value?.let {
-            isLoading.postValue(true)
+            updateResponse.postValue(Resource.loading(true))
             val map = HashMap<String, Any>()
             map[DATA_USER_USERNAME] = it.username
             map[DATA_USER_EMAIL] = it.email
             firebaseDB.collection(DATA_USERS).document(firebaseAuth.uid!!).update(map)
                 .addOnSuccessListener {
-                    Log.d("Update User", "Success !")
-                    isLoading.postValue(false)
+                    updateResponse.postValue(Resource.success("User updated successfully!"))
                 }
                 .addOnFailureListener { e ->
                     e.printStackTrace()
-                    Log.d("Update User", "Failed !")
-                    isLoading.postValue(false)
+                    updateResponse.postValue(Resource.error("Could not update user. Please, try again."))
                 }
         }
     }
@@ -373,6 +379,28 @@ class FirebaseDataSourceImpl(var context: Context) : FirebaseDataSource {
             .addOnFailureListener { e ->
                 e.printStackTrace()
                 isLoading.postValue(false)
+            }
+    }
+
+    override fun testLogin(
+        authCridential: AuthCridential,
+        loginResponse: MutableLiveData<Resource<*>>
+    ) {
+        loginResponse.postValue(Resource.loading(true))
+        firebaseAuth.signInWithEmailAndPassword(
+            authCridential.email,
+            authCridential.password
+        )
+            .addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    loginResponse.postValue(Resource.error("User does not exist"))
+                } else {
+                    loginResponse.postValue(Resource.success(firebaseAuth.currentUser?.uid))
+                }
+            }
+            .addOnFailureListener { e ->
+                e.printStackTrace()
+                loginResponse.postValue(Resource.error("Login failed. Please, try again"))
             }
     }
 }

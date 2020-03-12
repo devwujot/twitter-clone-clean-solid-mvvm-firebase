@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.devwujot.hashtag.R
+import com.devwujot.hashtag.core.data.Resource
 import com.devwujot.hashtag.databinding.ActivitySignupBinding
 import com.devwujot.hashtag.framework.utility.FormValidator
 import com.devwujot.hashtag.framework.utility.reObserve
@@ -37,18 +40,34 @@ class SignupActivity : AppCompatActivity() {
 
     private val uidObserver = Observer<String> { uid ->
         uid?.let {
-            startActivity(
-                (HomeActivity.newIntent(
-                    this
-                ))
-            )
-            finish()
+            goToHomeActivity()
         }
     }
 
     private val validateObserver = Observer<Boolean> { validationClicked ->
         if (validationClicked) {
             handleValidation()
+        }
+    }
+
+    private val signupResponseObserver = Observer<Resource<*>> { signupResponse ->
+        when (signupResponse.status) {
+            Resource.Status.SUCCESS -> {
+                binding.signupProgressLayout.visibility = View.GONE
+                signupResponse.data?.let {
+                    goToHomeActivity()
+                }
+            }
+            Resource.Status.ERROR -> {
+                binding.signupProgressLayout.visibility = View.GONE
+                Toast.makeText(this, signupResponse.errorMessage.toString(), Toast.LENGTH_SHORT)
+                    .show()
+            }
+            Resource.Status.LOADING -> {
+                if (signupResponse.data == true) {
+                    binding.signupProgressLayout.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -65,6 +84,7 @@ class SignupActivity : AppCompatActivity() {
             goToLogin.reObserve(this@SignupActivity, goToLoginObserver)
             uid.reObserve(this@SignupActivity, uidObserver)
             validate.reObserve(this@SignupActivity, validateObserver)
+            signupResponse.reObserve(this@SignupActivity, signupResponseObserver)
         }
     }
 
@@ -74,8 +94,17 @@ class SignupActivity : AppCompatActivity() {
         binding.emailTIL.error = formValidator.validateEmail(binding.emailET.text.toString())
         binding.passwordTIL.error =
             formValidator.validatePassword(binding.passwordET.text.toString())
-        if (binding.usernameTIL.error == null || binding.emailTIL.error == null || binding.passwordTIL.error == null) {
+        if (binding.usernameTIL.error.isNullOrEmpty() && binding.emailTIL.error.isNullOrEmpty() && binding.passwordTIL.error.isNullOrEmpty()) {
             viewModel.signup()
         }
+    }
+
+    private fun goToHomeActivity() {
+        startActivity(
+            (HomeActivity.newIntent(
+                this
+            ))
+        )
+        finish()
     }
 }
